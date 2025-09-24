@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿东的知识库</title>
+    <link rel="stylesheet" href="../../css(所有网页公共样式表).css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1>阿东的知识库</h1>
+    </div>
+    <!-- 开启弹性布局 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div id="target"></div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- 知识总标题 -->
+            <h2>Linux 文件操作核心命令（结构化解析）</h2>
+
+            <!-- 1. touch 命令模块 -->
+            <div class="command-module">
+                <h3>1. touch - 创建空文件/更新文件时间戳</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>创建不存在的空文件（支持任意后缀，如 .txt、.sh、.c 等）；</li>
+                            <li>更新已存在文件的访问时间（atime）和修改时间（mtime）（不改变文件内容）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-a：仅更新文件的访问时间；</li>
+                            <li>-m：仅更新文件的修改时间；</li>
+                            <li>-t [时间格式]：指定更新的时间（格式：YYYYMMDDhhmm.ss，如 202405201430.00）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>补充说明</strong>：Linux 中文件类型由权限字符串的<strong>第一个字符</strong>区分（非后缀），例如：
+                        <ul>
+                            <li>-：普通文件；d：目录；l：软链接；c：字符设备文件。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <!-- 2. rm 命令模块 -->
+            <div class="command-module">
+                <h3>2. rm - 删除文件/目录</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：删除指定的文件或目录（删除后不可逆，需谨慎使用）。</li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-r（--recursive）：递归删除目录及其下所有文件/子目录；</li>
+                            <li>-f（--force）：强制删除，不提示确认（即使文件权限为只读）；</li>
+                            <li>-i（--interactive）：删除前逐一提示确认（默认无此选项，建议高危操作时添加）；</li>
+                            <li>常用组合：rm -rf [目录名]（强制删除目录，危险操作）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>风险提示</strong>：避免在根目录（/）使用 rm -rf，可能导致系统崩溃。</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <!-- 3. stat 命令模块 -->
+            <div class="command-module">
+                <h3>3. stat - 查看文件详细元信息</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：显示文件的inode信息、权限、时间戳、大小等完整元数据。</li>
+                    <li><strong>输出关键字段</strong>：
+                        <ul>
+                            <li>File：文件名；</li>
+                            <li>Size：文件大小（字节）；</li>
+                            <li>Inode：文件的inode编号（Linux文件系统的唯一标识）；</li>
+                            <li>Access (atime)：最后访问时间；</li>
+                            <li>Modify (mtime)：最后修改内容时间；</li>
+                            <li>Change (ctime)：最后修改元数据（如权限）时间；</li>
+                            <li>Permissions：文件权限（如 -rw-r--r--）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>补充选项</strong>：-f：查看文件所在文件系统的信息（如总大小、可用空间）。</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <!-- 4. cat 命令模块 -->
+            <div class="command-module">
+                <h3>4. cat - 查看文件内容（一次性显示）</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：将文件内容完整输出到终端，适合查看<strong>小文件</strong>。</li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-n：显示每行的行号；</li>
+                            <li>-v：显示不可见字符（如制表符、换行符）；</li>
+                            <li>-T：将制表符（Tab）显示为 ^I；</li>
+                            <li>-E：在每行末尾显示换行符（$）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>适用场景</strong>：快速查看配置文件片段、日志摘要等短内容。</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <!-- 5. more 命令模块 -->
+            <div class="command-module">
+                <h3>5. more - 分页查看文件内容（向前滚动受限）</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：按屏幕尺寸分页显示文件内容，适合查看<strong>大文件</strong>。</li>
+                    <li><strong>常用操作</strong>：
+                        <ul>
+                            <li>空格：翻到下一页；</li>
+                            <li>b 键：返回上一页；</li>
+                            <li>Enter 键：逐行向下滚动；</li>
+                            <li>= 键：显示当前行号；</li>
+                            <li>q 键：退出查看。</li>
+                        </ul>
+                    </li>
+                    <li><strong>局限性</strong>：不支持向上逐行滚动，仅能通过 b 键整页回退。</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <!-- 6. less 命令模块 -->
+            <div class="command-module">
+                <h3>6. less - 交互式分页查看文件内容（功能更强）</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：增强版分页查看工具，支持自由滚动和搜索，是大文件查看的首选。</li>
+                    <li><strong>常用操作</strong>：
+                        <ul>
+                            <li>上下箭头：逐行滚动；</li>
+                            <li>PageUp/PageDown：整页滚动；</li>
+                            <li>/[关键词]：向下搜索关键词（n 键找下一个，N 键找上一个）；</li>
+                            <li>g 键：跳转到文件开头；</li>
+                            <li>G 键：跳转到文件末尾；</li>
+                            <li>q 键：退出查看。</li>
+                        </ul>
+                    </li>
+                    <li><strong>优势</strong>：无需加载整个文件到内存，启动速度比 more 更快，支持反向搜索。</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <!-- 7. head 命令模块 -->
+            <div class="command-module">
+                <h3>7. head - 显示文件开头内容</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：默认显示文件的前 10 行内容。</li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-n [行数]：指定显示的开头行数（如 head -n 5 test.txt 显示前 5 行）；</li>
+                            <li>-n +[行数]：从第 N 行开始显示到文件开头（如 head -n +3 test.txt 显示第 1-3 行）；</li>
+                            <li>-q：显示多个文件时，不输出文件名（默认会显示文件名作为分隔）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <!-- 8. tail 命令模块 -->
+            <div class="command-module">
+                <h3>8. tail - 显示文件尾部内容</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：默认显示文件的最后 10 行内容，常用于查看日志更新。</li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-n [行数]：指定显示的尾部行数（如 tail -n 20 log.txt 显示最后 20 行）；</li>
+                            <li>-n +[行数]：从第 N 行开始显示到文件末尾（<strong>原文档描述错误，此处修正</strong>，如 tail -n +100 log.txt 显示第 100 行至末尾）；</li>
+                            <li>-f（--follow）：实时跟踪文件更新（文件新增内容会自动输出到终端，按 Ctrl+C 退出）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>适用场景</strong>：监控应用运行日志（如 tail -f /var/log/messages）。</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <!-- 9. echo 命令模块 -->
+            <div class="command-module">
+                <h3>9. echo - 输出字符串/写入文件</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：将字符串输出到终端，或通过重定向写入文件。</li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-n：输出后不换行（默认会自动添加换行符）；</li>
+                            <li>-e：解析字符串中的转义字符（如 \n 换行、\t 制表符）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>重定向用法</strong>（原文档补充）：
+                        <ul>
+                            <li>> [文件名]：覆盖写入文件（文件不存在则创建，存在则清空原有内容）；</li>
+                            <li>>> [文件名]：追加写入文件（内容添加到文件末尾，不影响原有内容）；</li>
+                            <li>示例：echo -e "Hello\nWorld" >> test.txt（向 test.txt 追加两行内容）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>局限性</strong>：仅支持尾部写入，无法插入内容到文件中间（需用 vim 等编辑器）。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadHtmlFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const htmlContent = await response.text();
+                document.getElementById('target').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('加载文件失败:', error);
+            }
+        }
+        // 加载另一个HTML文件
+        loadHtmlFile('../公共导航栏(Linux).html');
+    </script>
+</body>
+</html>
