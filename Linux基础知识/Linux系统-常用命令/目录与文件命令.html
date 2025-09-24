@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿东的知识库</title>
+    <link rel="stylesheet" href="../../css(所有网页公共样式表).css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1>阿东的知识库</h1>
+    </div>
+    <!-- 开启弹性布局 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div id="target"></div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- cp 命令模块 -->
+            <div class="command-module">
+                <h3>1. cp - 复制文件/目录</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>复制文件或目录到指定位置；</li>
+                            <li>可实现单个文件复制、多个文件批量复制、目录及内容复制。</li>
+                        </ul>
+                    </li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-i（--interactive）：复制前若目标文件已存在，提示确认是否覆盖；</li>
+                            <li>-r（--recursive）：递归复制目录（必须使用此选项才能复制目录及其中内容）；</li>
+                            <li>-v（--verbose）：显示复制过程的详细信息（如“'file.txt' -> 'dir/file.txt'”）；</li>
+                            <li>-a（--archive）：归档复制，保留文件权限、所有者、时间戳等所有属性（常用于备份）；</li>
+                            <li>-u（--update）：仅复制源文件比目标文件新，或目标文件不存在的情况；</li>
+                            <li>-p：保留源文件的权限、所有者和时间戳（不包括链接等特殊属性）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>常用示例</strong>：
+                        <ul>
+                            <li><code>cp file.txt dir/</code>：将file.txt复制到dir目录下；</li>
+                            <li><code>cp file1.txt file2.txt dir/</code>：将多个文件批量复制到dir目录；</li>
+                            <li><code>cp -r src_dir/ dest_dir/</code>：复制src_dir目录及所有内容到dest_dir；</li>
+                            <li><code>cp -i old.txt new.txt</code>：若new.txt存在，会提示“是否覆盖”。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- rm 命令模块 -->
+            <div class="command-module">
+                <h3>2. rm - 删除文件/目录</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>删除指定的文件或目录，操作不可逆，执行前需仔细确认目标。</li>
+                        </ul>
+                    </li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-r（--recursive）：递归删除目录及其下所有文件、子目录（删除目录必须加此选项）；</li>
+                            <li>-f（--force）：强制删除，不提示确认（即使文件为只读权限，或目标不存在也不报错）；</li>
+                            <li>-i（--interactive）：交互式删除，删除每个文件/目录前都会提示确认（输入y确认，n取消）；</li>
+                            <li>-v（--verbose）：显示删除过程的详细信息（如“removed 'test.txt'”）；</li>
+                            <li>常用组合：<code>rm -rf 目录名</code>（强制删除目录及内容，高危操作）、<code>rm -i *.log</code>（交互式删除所有.log文件）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>风险提示</strong>：
+                        <ul>
+                            <li>绝对禁止在根目录（/）执行<code>rm -rf *</code>或<code>rm -rf /</code>，会直接删除系统文件导致崩溃；</li>
+                            <li>删除隐藏文件需明确指定，如<code>rm -f .bash_history</code>（删除历史记录文件）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- mv 命令模块 -->
+            <div class="command-module">
+                <h3>3. mv - 移动/重命名文件/目录</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>移动文件或目录到指定位置；</li>
+                            <li>对文件或目录进行重命名（同一目录下移动即重命名）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-i（--interactive）：若目标文件已存在，提示确认是否覆盖；</li>
+                            <li>-v（--verbose）：显示移动/重命名过程（如“'old.txt' -> 'new.txt'”）；</li>
+                            <li>-u（--update）：仅当源文件比目标文件新，或目标文件不存在时才执行移动；</li>
+                            <li>-f（--force）：强制移动，覆盖已存在的目标文件且不提示。</li>
+                        </ul>
+                    </li>
+                    <li><strong>常用示例</strong>：
+                        <ul>
+                            <li><code>mv file.txt dir/</code>：将file.txt移动到dir目录下；</li>
+                            <li><code>mv oldname.txt newname.txt</code>：将文件重命名（同一目录下）；</li>
+                            <li><code>mv src_dir/ dest_dir/</code>：若dest_dir存在，将src_dir移动到dest_dir内；若不存在，则重命名src_dir为dest_dir；</li>
+                            <li><code>mv file1.txt file2.txt docs/</code>：将多个文件批量移动到docs目录。</li>
+                        </ul>
+                    </li>
+                    <li><strong>补充说明</strong>：
+                        <ul>
+                            <li>移动操作不会改变文件内容和属性，仅修改文件路径；</li>
+                            <li>跨文件系统移动时，实际是先复制再删除源文件（耗时较长）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        async function loadHtmlFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const htmlContent = await response.text();
+                document.getElementById('target').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('加载文件失败:', error);
+            }
+        }
+        // 加载导航栏文件
+        loadHtmlFile('./导航栏/公共导航栏(Linux).html');
+    </script>
+</body>
+</html>
