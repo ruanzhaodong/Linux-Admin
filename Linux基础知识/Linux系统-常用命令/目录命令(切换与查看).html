@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿东的知识库</title>
+    <link rel="stylesheet" href="../../css(所有网页公共样式表).css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1>阿东的知识库</h1>
+    </div>
+    <!-- 开启弹性布局 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div id="target"></div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- rm 命令模块 -->
+            <div class="command-module">
+                <h3>1. rm - 删除文件/目录</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>删除指定的文件或目录，操作不可逆，执行前需仔细确认目标。</li>
+                        </ul>
+                    </li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-r（--recursive）：递归删除目录及其下所有文件、子目录（删除目录必须加此选项）；</li>
+                            <li>-f（--force）：强制删除，不提示确认（即使文件为只读权限，或目标不存在也不报错）；</li>
+                            <li>-i（--interactive）：交互式删除，删除每个文件/目录前都会提示确认（输入 y 确认，n 取消）；</li>
+                            <li>-v（--verbose）：显示删除过程的详细信息（如“removed 'test.txt'”）；</li>
+                            <li>常用组合：<code>rm -rf 目录名</code>（强制删除目录及内容，高危操作）、<code>rm -i *.log</code>（交互式删除所有 .log 文件）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>风险提示与补充</strong>：
+                        <ul>
+                            <li>绝对禁止在根目录（/）执行 <code>rm -rf *</code> 或 <code>rm -rf /</code>，会直接删除系统所有文件导致崩溃；</li>
+                            <li>删除隐藏文件时，需明确指定文件名或使用通配符，如 <code>rm -f .bash_history</code>（删除家目录下的历史记录文件）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- rmdir 命令模块 -->
+            <div class="command-module">
+                <h3>2. rmdir - 删除空目录</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>仅用于删除<strong>空目录</strong>，无法删除文件或包含文件/子目录的非空目录（与 rm 相比更安全，但功能单一）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li>-p（--parents）：递归删除空目录及空的父目录，需从最深层目录开始指定。例如 <code>rmdir -p a/b/c</code>，若 c、b、a 均为空，则会依次删除 c、b、a；</li>
+                            <li>-v（--verbose）：显示删除目录的详细过程（如“rmdir: removing directory, 'a/b/c'”）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>补充说明与局限性</strong>：
+                        <ul>
+                            <li>若目录非空，执行 rmdir 会报错（如“rmdir: failed to remove 'test': Directory not empty”），此时需先用 <code>rm -rf 目录名</code> 删除目录内容后再删除目录，或直接用 rm -rf 一次性删除；</li>
+                            <li>优势：因仅能删除空目录，可避免误删目录内文件的风险，适合对安全性要求较高的场景；</li>
+                            <li>示例：<code>rmdir empty_dir</code>（删除空目录 empty_dir）、<code>rmdir -p docs/notes</code>（若 notes 和 docs 均为空，则同时删除两者）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        async function loadHtmlFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const htmlContent = await response.text();
+                document.getElementById('target').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('加载文件失败:', error);
+            }
+        }
+        // 加载另一个HTML文件
+        loadHtmlFile('./导航栏/公共导航栏(Linux).html');
+    </script>
+</body>
+</html>
