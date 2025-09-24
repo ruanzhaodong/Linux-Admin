@@ -1,1 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿东的知识库</title>
+    <link rel="stylesheet" href="../../css(所有网页公共样式表).css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1>阿东的知识库</h1>
+    </div>
+    <!-- 开启弹性布局 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div id="target"></div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="main-content">
+           
 
+            <!-- chmod 命令 -->
+            <div class="permission-module">
+                <h3>1. chmod - 修改文件/目录权限</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>修改文件或目录对不同用户（u/g/o/a）的r/w/x权限；</li>
+                            <li>支持符号模式（直观）和数字模式（简洁）两种操作方式。</li>
+                        </ul>
+                    </li>
+                    <li><strong>符号模式语法</strong>：
+                        <ul>
+                            <li><code>chmod [用户][操作符][权限] 文件名</code></li>
+                            <li>用户：u（所有者）、g（组）、o（其他）、a（所有）；</li>
+                            <li>操作符：+（添加权限）、-（移除权限）、=（设置固定权限）；</li>
+                            <li>权限：r、w、x。</li>
+                        </ul>
+                    </li>
+                    <li><strong>符号模式示例</strong>：
+                        <ul>
+                            <li><code>chmod u+x file.sh</code>：给所有者添加执行权限；</li>
+                            <li><code>chmod g-w,o-r file.txt</code>：移除组的写权限和其他用户的读权限；</li>
+                            <li><code>chmod a=rwx dir</code>：给所有用户设置读、写、执行权限；</li>
+                            <li><code>chmod ug+w data.csv</code>：给所有者和组添加写权限。</li>
+                        </ul>
+                    </li>
+                    <li><strong>数字模式语法</strong>：
+                        <ul>
+                            <li><code>chmod [三位数字] 文件名</code>（每位数字对应u/g/o的权限总和）；</li>
+                            <li>常用数字组合：777（所有权限）、755（u=rwx,g=rx,o=rx）、644（u=rw,g=r,o=r）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>数字模式示例</strong>：
+                        <ul>
+                            <li><code>chmod 755 script.sh</code>：所有者可执行，组和其他用户可读可执行；</li>
+                            <li><code>chmod 600 secret.txt</code>：仅所有者可读写，其他用户无权限；</li>
+                            <li><code>chmod 700 private_dir</code>：仅所有者可进入并操作目录。</li>
+                        </ul>
+                    </li>
+                    <li><strong>递归修改</strong>：
+                        <ul>
+                            <li>选项 <code>-R</code>：递归修改目录及所有子文件/子目录权限；</li>
+                            <li>示例：<code>chmod -R 755 /data/project</code>（批量设置项目目录权限）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- chown 与 chgrp 命令 -->
+            <div class="permission-module">
+                <h3>2. chown 与 chgrp - 修改所有者和所属组</h3>
+                <ul>
+                    <li><strong>chown - 修改文件所有者（及所属组）</strong>：
+                        <ul>
+                            <li>语法：<code>chown [新所有者][:新组] 文件名</code>；</li>
+                            <li>示例：
+                                <ul>
+                                    <li><code>chown alice file.txt</code>：将file.txt的所有者改为alice；</li>
+                                    <li><code>chown alice:dev team.doc</code>：将所有者改为alice，所属组改为dev；</li>
+                                    <li><code>chown -R bob /data/bob_dir</code>：递归修改目录所有者为bob。</li>
+                                </ul>
+                            </li>
+                            <li>注意：只有root用户可修改文件所有者，普通用户只能修改自己拥有的文件的所属组（且需是该组成员）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>chgrp - 修改文件所属组</strong>：
+                        <ul>
+                            <li>语法：<code>chgrp [新组] 文件名</code>；</li>
+                            <li>示例：
+                                <ul>
+                                    <li><code>chgrp dev report.pdf</code>：将report.pdf的所属组改为dev；</li>
+                                    <li><code>chgrp -R admin /etc/config</code>：递归修改目录所属组为admin。</li>
+                                </ul>
+                            </li>
+                            <li>替代方案：<code>chown :组名 文件名</code> 与 <code>chgrp 组名 文件名</code> 功能相同。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+           
+          
+    </div>
+    <script>
+        async function loadHtmlFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const htmlContent = await response.text();
+                document.getElementById('target').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('加载文件失败:', error);
+            }
+        }
+        // 加载导航栏文件
+        loadHtmlFile('./导航栏/公共导航栏(Linux).html');
+    </script>
+</body>
+</html>
+    
