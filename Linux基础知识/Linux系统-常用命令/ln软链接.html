@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿东的知识库</title>
+    <link rel="stylesheet" href="../../css(所有网页公共样式表).css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1>阿东的知识库</h1>
+    </div>
+    <!-- 开启弹性布局 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div id="target"></div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- 软链接（符号链接）模块 -->
+            <div class="command-module">
+                <h3>1. ln -s 软链接（符号链接）</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>创建一个特殊的文件（符号链接），其内容是指向另一个文件或目录的路径；</li>
+                            <li>类似Windows系统的"快捷方式"，但功能更基础（不包含额外属性）；</li>
+                            <li>可跨文件系统（分区）创建，支持链接目录。</li>
+                        </ul>
+                    </li>
+                    <li><strong>创建语法</strong>：
+                        <ul>
+                            <li><code>ln -s [源文件/目录路径] [软链接名称]</code></li>
+                            <li>源文件路径建议使用绝对路径（避免移动软链接后失效）；</li>
+                            <li>示例：<code>ln -s /home/user/docs/report.pdf report_link</code>（创建指向report.pdf的软链接）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>关键特点</strong>：
+                        <ul>
+                            <li>软链接是独立文件，有自己的inode和权限（通常为lrwxrwxrwx）；</li>
+                            <li>ls命令中显示为青色文字，且末尾带箭头（如 <code>report_link -> /home/user/docs/report.pdf</code>）；</li>
+                            <li>删除源文件后，软链接会变为"悬空链接"（broken link），访问时提示"没有那个文件或目录"；</li>
+                            <li>修改软链接文件等同于修改源文件（实际操作的是源文件内容）；</li>
+                            <li>可链接不存在的目标（预创建链接，后续创建源文件）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>适用场景</strong>：
+                        <ul>
+                            <li>简化长路径访问（如将深层目录链接到用户家目录）；</li>
+                            <li>软件版本管理（如 <code>ln -s python3.9 python</code> 统一命令入口）；</li>
+                            <li>跨分区共享文件（硬链接不支持跨文件系统）；</li>
+                            <li>临时需要访问的文件/目录，避免频繁切换路径。</li>
+                        </ul>
+                    </li>
+                    <li><strong>管理操作</strong>：
+                        <ul>
+                            <li>查看链接指向：<code>ls -l 软链接名称</code>（显示箭头指向的源路径）；</li>
+                            <li>删除软链接：<code>rm 软链接名称</code>（注意不要加/，否则可能删除源文件内容）；</li>
+                            <li>修改软链接指向：先删除旧链接，再创建新链接（无直接修改命令）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>注意事项</strong>：
+                        <ul>
+                            <li>使用相对路径创建软链接时，相对的是软链接所在目录，而非当前工作目录；</li>
+                            <li>链接目录时，源目录后加不加/效果不同（加/表示链接目录内容，不加表示链接目录本身）；</li>
+                            <li>悬空链接可通过 <code>find / -type l -xtype l</code> 查找（搜索系统中所有无效软链接）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        async function loadHtmlFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const htmlContent = await response.text();
+                document.getElementById('target').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('加载文件失败:', error);
+            }
+        }
+        // 加载导航栏文件
+        loadHtmlFile('./导航栏/公共导航栏(Linux).html');
+    </script>
+</body>
+</html>
+    
