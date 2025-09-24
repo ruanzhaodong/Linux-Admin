@@ -1,1 +1,128 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿东的知识库</title>
+    <link rel="stylesheet" href="../../css(所有网页公共样式表).css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1>阿东的知识库</h1>
+    </div>
+    <!-- 开启弹性布局 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div id="target"></div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- grep 命令模块 -->
+            <div class="command-module">
+                <h3>1. grep - 文本内容搜索工具</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>在文件或输入流中查找匹配指定模式（字符串或正则表达式）的文本行；</li>
+                            <li>支持按行匹配，输出包含目标模式的完整行；</li>
+                            <li>可用于日志分析、配置文件检索、代码搜索等场景。</li>
+                        </ul>
+                    </li>
+                    <li><strong>基本语法</strong>：
+                        <ul>
+                            <li><code>grep [选项] "模式" [文件...]</code>：在指定文件中搜索模式；</li>
+                            <li><code>命令 | grep [选项] "模式"</code>：通过管道处理其他命令的输出结果。</li>
+                        </ul>
+                    </li>
+                    <li><strong>关键选项</strong>：
+                        <ul>
+                            <li><strong>匹配控制</strong>：
+                                <ul>
+                                    <li>-i：忽略大小写（如匹配"Hello"和"hello"）；</li>
+                                    <li>-w：仅匹配完整单词（避免子字符串匹配，如搜索"cat"不会匹配"category"）；</li>
+                                    <li>-x：仅匹配整行完全相同的内容；</li>
+                                    <li>-F：将模式视为固定字符串（不解析正则表达式）。</li>
+                                </ul>
+                            </li>
+                            <li><strong>输出控制</strong>：
+                                <ul>
+                                    <li>-n：显示匹配行的行号；</li>
+                                    <li>-H：显示匹配行所在的文件名（多文件搜索时默认显示，单文件时需指定）；</li>
+                                    <li>-h：抑制文件名显示（多文件搜索时不显示文件名）；</li>
+                                    <li>-v：反转匹配，输出不包含模式的行；</li>
+                                    <li>-o：仅输出匹配模式的部分（而非整行）；</li>
+                                    <li>-c：统计匹配的行数（不显示具体内容）。</li>
+                                </ul>
+                            </li>
+                            <li><strong>递归与范围</strong>：
+                                <ul>
+                                    <li>-r/-R：递归搜索目录下的所有文件；</li>
+                                    <li>-l：仅显示包含匹配内容的文件名（不显示具体行）；</li>
+                                    <li>--include=PATTERN：递归搜索时仅包含符合模式的文件（如 --include="*.txt"）；</li>
+                                    <li>--exclude=PATTERN：递归搜索时排除符合模式的文件（如 --exclude="*.log"）。</li>
+                                </ul>
+                            </li>
+                            <li><strong>正则表达式</strong>：
+                                <ul>
+                                    <li>-E：启用扩展正则表达式（支持 |、()、{} 等元字符，无需转义）；</li>
+                                    <li>-e 模式：指定多个搜索模式（可多次使用，实现逻辑或）。</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>实用示例</strong>：
+                        <ul>
+                            <li>1. 在文件中搜索字符串：<code>grep "error" app.log</code>（查找app.log中含"error"的行）；</li>
+                            <li>2. 忽略大小写搜索：<code>grep -i "warning" system.log</code>（匹配"WARNING"、"Warning"等）；</li>
+                            <li>3. 显示行号和文件名：<code>grep -nH "timeout" *.conf</code>（在所有.conf文件中搜索并显示行号）；</li>
+                            <li>4. 递归搜索目录：<code>grep -r "import" ./src/</code>（在src目录及子目录的所有文件中找"import"）；</li>
+                            <li>5. 反转匹配（排除指定内容）：<code>grep -v "^#" config.ini</code>（显示config.ini中不是注释的行，^#表示以#开头）；</li>
+                            <li>6. 统计匹配行数：<code>grep -c "failed" access.log</code>（统计access.log中含"failed"的行数）；</li>
+                            <li>7. 结合正则表达式：<code>grep -E "error|warning" syslog</code>（查找含error或warning的行，-E启用扩展正则）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>高级用法</strong>：
+                        <ul>
+                            <li>管道组合：<code>ps aux | grep "nginx"</code>（查找运行中的nginx进程）；</li>
+                            <li>多模式搜索：<code>grep -e "start" -e "end" log.txt</code>（查找含start或end的行）；</li>
+                            <li>搜索二进制文件：<code>grep -a "text" binaryfile</code>（将二进制文件视为文本搜索）；</li>
+                            <li>显示匹配行前后内容：
+                                <ul>
+                                    <li>-A 数字：显示匹配行及之后的指定行数（如 -A 3 显示匹配行+后3行）；</li>
+                                    <li>-B 数字：显示匹配行及之前的指定行数；</li>
+                                    <li>-C 数字：显示匹配行及前后的指定行数（如 -C 2 显示前后各2行）。</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>注意事项</strong>：
+                        <ul>
+                            <li>模式中包含特殊字符（如*、.、$）时，需用单引号包裹或转义（如 grep 'file.txt$' 查找以file.txt结尾的行）；</li>
+                            <li>递归搜索大目录时，建议结合--include/--exclude过滤文件类型，提高效率；</li>
+                            <li>与find命令结合使用：<code>find ./ -name "*.php" -exec grep "function" {} \;</code>（在所有php文件中搜索function）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        async function loadHtmlFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const htmlContent = await response.text();
+                document.getElementById('target').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('加载文件失败:', error);
+            }
+        }
+        // 加载导航栏文件
+        loadHtmlFile('./导航栏/公共导航栏(Linux).html');
+    </script>
+</body>
+</html>
+    
