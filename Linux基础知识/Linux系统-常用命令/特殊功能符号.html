@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿东的知识库</title>
+    <link rel="stylesheet" href="../../css(所有网页公共样式表).css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1>阿东的知识库</h1>
+    </div>
+    <!-- 开启弹性布局 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div id="target"></div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- > 符号模块 -->
+            <div class="symbol-module">
+                <h3>1. > - 输出重定向（覆盖模式）</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>将命令的输出结果写入指定文件，而非显示在终端；</li>
+                            <li>若目标文件已存在，会<strong>覆盖原有内容</strong>（谨慎使用）；</li>
+                            <li>若目标文件不存在，会自动创建该文件。</li>
+                        </ul>
+                    </li>
+                    <li><strong>用法示例</strong>：
+                        <ul>
+                            <li><code>echo "Hello World" > test.txt</code>：将字符串写入test.txt（覆盖原有内容）；</li>
+                            <li><code>ls -l > file_list.txt</code>：将目录列表输出保存到file_list.txt；</li>
+                            <li><code>grep "error" app.log > error.log</code>：将匹配"error"的行保存到error.log。</li>
+                        </ul>
+                    </li>
+                    <li><strong>注意事项</strong>：
+                        <ul>
+                            <li>无法重定向标准错误输出（需用2>，见下文补充）；</li>
+                            <li>覆盖操作不可逆，重要文件建议先备份或使用>>追加。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- >> 符号模块 -->
+            <div class="symbol-module">
+                <h3>2. >> - 输出重定向（追加模式）</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>将命令的输出结果追加到指定文件末尾，<strong>不影响原有内容</strong>；</li>
+                            <li>若目标文件不存在，会自动创建该文件（与>行为一致）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>用法示例</strong>：
+                        <ul>
+                            <li><code>echo "新内容" >> test.txt</code>：在test.txt末尾添加一行；</li>
+                            <li><code>date >> log.txt</code>：将当前时间追加到日志文件；</li>
+                            <li><code>ls -l >> file_list.txt</code>：将目录列表追加到已有文件列表。</li>
+                        </ul>
+                    </li>
+                    <li><strong>典型场景</strong>：
+                        <ul>
+                            <li>日志记录（持续向同一个文件添加内容）；</li>
+                            <li>多步骤输出合并（将多个命令结果汇总到一个文件）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- | 符号模块 -->
+            <div class="symbol-module">
+                <h3>3. | - 管道符</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>将前一个命令的<strong>标准输出</strong>作为后一个命令的<strong>标准输入</strong>；</li>
+                            <li>实现多命令协作，处理复杂任务（无需临时文件中转）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>用法示例</strong>：
+                        <ul>
+                            <li><code>ls -l | grep ".txt"</code>：列出目录内容并筛选出含".txt"的行；</li>
+                            <li><code>ps aux | grep "nginx"</code>：查找运行中的nginx进程；</li>
+                            <li><code>cat large_file.txt | less</code>：分页查看大文件内容；</li>
+                            <li><code>echo "hello world" | wc -w</code>：统计字符串的单词数量（结果为2）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>高级组合</strong>：
+                        <ul>
+                            <li>多管道串联：<code>ps aux | grep "python" | wc -l</code>（统计python进程数量）；</li>
+                            <li>与重定向结合：<code>ls -l | grep ".log" > log_files.txt</code>（筛选结果保存到文件）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- * 符号模块 -->
+            <div class="symbol-module">
+                <h3>4. * - 通配符（任意字符匹配）</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>匹配<strong>0个或多个任意字符</strong>（包括数字、字母、符号等）；</li>
+                            <li>用于批量选择文件或目录，简化命令输入。</li>
+                        </ul>
+                    </li>
+                    <li><strong>用法示例</strong>：
+                        <ul>
+                            <li><code>ls *.txt</code>：列出所有以".txt"结尾的文件；</li>
+                            <li><code>rm error_*.log</code>：删除所有以"error_"开头且以".log"结尾的文件；</li>
+                            <li><code>cp /data/* ./backup</code>：复制/data目录下的所有内容到backup目录；</li>
+                            <li><code>grep "error" *.log</code>：在所有.log文件中搜索"error"。</li>
+                        </ul>
+                    </li>
+                    <li><strong>注意事项</strong>：
+                        <ul>
+                            <li>默认不匹配以"."开头的隐藏文件（需用<code>.*</code>或结合-a选项）；</li>
+                            <li>匹配范围过宽可能导致意外操作（如<code>rm *</code>会删除当前目录所有可见文件）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- ? 符号模块 -->
+            <div class="symbol-module">
+                <h3>5. ? - 通配符（单个字符匹配）</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>匹配<strong>恰好1个任意字符</strong>（长度固定为1）；</li>
+                            <li>用于文件名长度固定但部分字符不同的场景。</li>
+                        </ul>
+                    </li>
+                    <li><strong>用法示例</strong>：
+                        <ul>
+                            <li><code>ls file?.txt</code>：匹配file1.txt、fileA.txt（中间1个字符）；</li>
+                            <li><code>rm image_?.png</code>：删除image_1.png、image_x.png（下划线后1个字符）；</li>
+                            <li><code>ls ???.log</code>：匹配文件名长度为3的.log文件（如abc.log、123.log）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>与*的区别</strong>：
+                        <ul>
+                            <li>? 必须匹配<strong> exactly 1个字符</strong>（不能多也不能少）；</li>
+                            <li>* 可以匹配0个或多个字符（长度可变）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- ~ 符号模块 -->
+            <div class="symbol-module">
+                <h3>6. ~ - 家目录符号</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>代表当前用户的家目录路径（等价于环境变量$HOME）；</li>
+                            <li>简化路径输入，避免手动输入完整家目录路径（如/home/username）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>用法示例</strong>：
+                        <ul>
+                            <li><code>cd ~</code>：切换到当前用户的家目录；</li>
+                            <li><code>ls ~/Documents</code>：列出家目录下的Documents文件夹内容；</li>
+                            <li><code>cp file.txt ~/Downloads</code>：复制文件到下载目录；</li>
+                            <li><code>~otheruser</code>：代表指定用户的家目录（如~root指向/root）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>注意事项</strong>：
+                        <ul>
+                            <li>在脚本中使用时，~ 不会被自动解析为家目录，需用$HOME替代；</li>
+                            <li>家目录路径可通过<code>echo ~</code>或<code>echo $HOME</code>查看。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- .. 和 . 符号模块 -->
+            <div class="symbol-module">
+                <h3>7. .. 和 . - 路径指代符号</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li><strong>.</strong>：代表<strong>当前工作目录</strong>；</li>
+                            <li><strong>..</strong>：代表<strong>上一级目录</strong>（父目录）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>用法示例</strong>：
+                        <ul>
+                            <li><code>cd ..</code>：从当前目录切换到上一级目录；</li>
+                            <li><code>ls ./docs</code>：列出当前目录下的docs文件夹内容（./可省略）；</li>
+                            <li><code>cp ../data/file.txt .</code>：复制上一级目录中data文件夹的file.txt到当前目录；</li>
+                            <li><code>cd ../../</code>：连续向上两级目录（父目录的父目录）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>典型场景</strong>：
+                        <ul>
+                            <li>相对路径导航（避免输入完整绝对路径）；</li>
+                            <li>脚本中引用当前目录下的文件（如<code>./script.sh</code>执行当前目录脚本）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- && 和 || 符号模块 -->
+            <div class="symbol-module">
+                <h3>8. && 和 || - 命令逻辑符</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li><strong>&&</strong>：逻辑"与"，前一个命令执行成功（返回0），才执行后一个命令；</li>
+                            <li><strong>||</strong>：逻辑"或"，前一个命令执行失败（返回非0），才执行后一个命令。</li>
+                        </ul>
+                    </li>
+                    <li><strong>用法示例</strong>：
+                        <ul>
+                            <li><code>mkdir test && cd test</code>：创建test目录并在成功后进入该目录；</li>
+                            <li><code>cp file.txt backup/ || echo "复制失败"</code>：复制失败时输出提示；</li>
+                            <li><code>command && echo "成功" || echo "失败"</code>：命令执行结果判断（类似if-else）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>注意事项</strong>：
+                        <ul>
+                            <li>命令执行成功的返回值为0，失败为非0（可通过<code>echo $?</code>查看上一个命令的返回值）；</li>
+                            <li>可串联多个逻辑符：<code>A && B || C && D</code>（按从左到右顺序执行）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+
+            <!-- $ 符号模块 -->
+            <div class="symbol-module">
+                <h3>9. $ - 变量引用符</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>用于引用环境变量或自定义变量的值；</li>
+                            <li>在脚本和命令行中获取变量内容的必备符号。</li>
+                        </ul>
+                    </li>
+                    <li><strong>用法示例</strong>：
+                        <ul>
+                            <li><code>echo $HOME</code>：输出当前用户的家目录路径；</li>
+                            <li><code>echo $PATH</code>：查看系统环境变量PATH（命令搜索路径）；</li>
+                            <li><code>name="Linux" && echo $name</code>：定义变量name并输出其值；</li>
+                            <li><code>echo $?</code>：获取上一个命令的执行结果返回值（0为成功）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>高级用法</strong>：
+                        <ul>
+                            <li><code>${变量名}</code>：明确变量边界，如<code>echo ${name}file</code>（避免与后续字符混淆）；</li>
+                            <li><code>$1、$2...</code>：脚本中引用第1、第2个参数（位置参数）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        async function loadHtmlFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const htmlContent = await response.text();
+                document.getElementById('target').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('加载文件失败:', error);
+            }
+        }
+        // 加载导航栏文件
+        loadHtmlFile('./导航栏/公共导航栏(Linux).html');
+    </script>
+</body>
+</html>
+    
