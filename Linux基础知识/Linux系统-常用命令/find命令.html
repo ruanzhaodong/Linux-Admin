@@ -1,1 +1,146 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿东的知识库</title>
+    <link rel="stylesheet" href="../../css(所有网页公共样式表).css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1>阿东的知识库</h1>
+    </div>
+    <!-- 开启弹性布局 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div id="target"></div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- find 命令模块 -->
+            <div class="command-module">
+                <h3>1. find - 查找文件和目录</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>在指定目录下按条件递归搜索文件和目录；</li>
+                            <li>支持按名称、类型、大小、权限、修改时间等多种条件筛选；</li>
+                            <li>可对找到的文件执行指定操作（如删除、复制、批量处理）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>基本语法</strong>：
+                        <ul>
+                            <li><code>find [搜索路径] [匹配条件] [操作]</code></li>
+                            <li>搜索路径：默认当前目录（.），可指定多个路径（如 /home /var）；</li>
+                            <li>匹配条件：定义搜索的筛选规则（如名称、大小等）；</li>
+                            <li>操作：对匹配到的文件执行的命令（如 -delete、-exec 等）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>关键匹配条件</strong>：
+                        <ul>
+                            <li><strong>按名称匹配</strong>：
+                                <ul>
+                                    <li>-name "pattern"：区分大小写（如 -name "*.txt" 找所有txt文件）；</li>
+                                    <li>-iname "pattern"：不区分大小写（如 -iname "README" 匹配 README、readme 等）。</li>
+                                </ul>
+                            </li>
+                            <li><strong>按类型匹配</strong>：
+                                <ul>
+                                    <li>-type f：普通文件；</li>
+                                    <li>-type d：目录；</li>
+                                    <li>-type l：符号链接；</li>
+                                    <li>-type s：套接字文件；</li>
+                                    <li>-type b：块设备文件；</li>
+                                    <li>-type c：字符设备文件。</li>
+                                </ul>
+                            </li>
+                            <li><strong>按大小匹配</strong>：
+                                <ul>
+                                    <li>-size [+/-]大小：+表示大于，-表示小于（默认等于）；</li>
+                                    <li>单位：c（字节）、k（KB）、M（MB）、G（GB）；</li>
+                                    <li>示例：-size +100M（大于100MB的文件）、-size -512k（小于512KB的文件）。</li>
+                                </ul>
+                            </li>
+                            <li><strong>按时间匹配</strong>：
+                                <ul>
+                                    <li>-mtime [+/-]天数：按修改时间（内容变更）；</li>
+                                    <li>-atime [+/-]天数：按访问时间（读取内容）；</li>
+                                    <li>-ctime [+/-]天数：按状态时间（权限/属性变更）；</li>
+                                    <li>示例：-mtime -7（7天内修改过的文件）、-atime +30（30天未访问的文件）。</li>
+                                </ul>
+                            </li>
+                            <li><strong>按权限匹配</strong>：
+                                <ul>
+                                    <li>-perm 权限值：精确匹配权限（如 -perm 644 找权限为-rw-r--r--的文件）；</li>
+                                    <li>-perm -权限值：文件权限包含指定权限（如 -perm -002 找其他用户可写的文件）。</li>
+                                </ul>
+                            </li>
+                            <li><strong>按所有者匹配</strong>：
+                                <ul>
+                                    <li>-user 用户名：查找属主为指定用户的文件；</li>
+                                    <li>-group 组名：查找属组为指定组的文件。</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>常用操作选项</strong>：
+                        <ul>
+                            <li>-print：默认操作，打印匹配文件的路径（可省略）；</li>
+                            <li>-delete：删除匹配的文件/目录（危险操作，建议先不加此选项确认结果）；</li>
+                            <li>-exec 命令 {} \;：对每个匹配文件执行指定命令（{} 代表文件名，\; 是命令结束标记）；</li>
+                            <li>-ok 命令 {} \;：类似 -exec，但执行前会提示确认。</li>
+                        </ul>
+                    </li>
+                    <li><strong>实用示例</strong>：
+                        <ul>
+                            <li>1. 在当前目录找所有.txt文件：<code>find . -name "*.txt"</code></li>
+                            <li>2. 在/var/log找7天前修改的.log文件并删除：<code>find /var/log -name "*.log" -mtime +7 -delete</code></li>
+                            <li>3. 查找系统中所有权限为777的文件：<code>find / -type f -perm 777</code></li>
+                            <li>4. 查找/home下大于1GB的视频文件：<code>find /home -type f -name "*.mp4" -size +1G</code></li>
+                            <li>5. 查找3天内修改的配置文件并备份：<code>find /etc -name "*.conf" -mtime -3 -exec cp {} {}.bak \;</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>高级用法</strong>：
+                        <ul>
+                            <li>逻辑组合条件：
+                                <ul>
+                                    <li>-a：与逻辑（默认，可省略），如 <code>find . -name "*.sh" -type f</code>（找所有.sh的普通文件）；</li>
+                                    <li>-o：或逻辑，如 <code>find . -name "*.txt" -o -name "*.md"</code>（找txt或md文件）；</li>
+                                    <li>!：非逻辑，如 <code>find . ! -name "*.log"</code>（找不是.log的文件）。</li>
+                                </ul>
+                            </li>
+                            <li>限制搜索深度：<code>find . -maxdepth 2 -name "*.py"</code>（最多搜索2层目录）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>注意事项</strong>：
+                        <ul>
+                            <li>搜索系统目录（如/）时可能需要root权限，否则会出现"Permission denied"错误；</li>
+                            <li>大范围搜索（如整个系统）会消耗较多资源，建议指定具体路径并限制深度；</li>
+                            <li>使用-delete或-exec rm时务必先通过普通查询确认结果，避免误删文件。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        async function loadHtmlFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const htmlContent = await response.text();
+                document.getElementById('target').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('加载文件失败:', error);
+            }
+        }
+        // 加载导航栏文件
+        loadHtmlFile('./导航栏/公共导航栏(Linux).html');
+    </script>
+</body>
+</html>
+    
