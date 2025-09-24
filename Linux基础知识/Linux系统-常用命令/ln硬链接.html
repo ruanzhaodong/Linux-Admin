@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿东的知识库</title>
+    <link rel="stylesheet" href="../../css(所有网页公共样式表).css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1>阿东的知识库</h1>
+    </div>
+    <!-- 开启弹性布局 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div id="target"></div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- 硬链接模块 -->
+            <div class="command-module">
+                <h3>1. ln 硬链接</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>为已存在的文件创建一个新的文件名（别名），与源文件共享同一个inode（文件系统中的唯一标识）；</li>
+                            <li>本质是同一个文件的不同访问入口，修改任何一个链接的内容都会影响所有链接；</li>
+                            <li>仅支持普通文件，不支持目录和跨文件系统（分区）创建。</li>
+                        </ul>
+                    </li>
+                    <li><strong>创建语法</strong>：
+                        <ul>
+                            <li><code>ln [源文件路径] [硬链接名称]</code>（无-s选项，默认创建硬链接）；</li>
+                            <li>示例：<code>ln /home/user/data.txt data_link</code>（为data.txt创建硬链接data_link）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>关键特点</strong>：
+                        <ul>
+                            <li>硬链接与源文件具有相同的inode编号和文件属性（权限、大小等）；</li>
+                            <li>ls命令中无法直接区分硬链接与源文件（需通过inode判断：<code>ls -i 文件名</code>）；</li>
+                            <li>删除源文件后，硬链接仍可正常访问（文件数据真正删除的条件是所有硬链接都被删除）；</li>
+                            <li>文件系统通过"链接计数"（link count）跟踪硬链接数量，创建硬链接时计数+1，删除时-1，计数为0时删除数据；</li>
+                            <li>不支持对目录创建硬链接（避免文件系统形成循环引用，除了系统默认的.和..目录）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>适用场景</strong>：
+                        <ul>
+                            <li>重要文件备份（避免误删导致数据丢失，需删除所有链接才会真正丢失）；</li>
+                            <li>在不同目录需要访问同一文件（避免复制占用磁盘空间）；</li>
+                            <li>需要保持文件版本一致性的场景（修改任一链接即同步更新）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>与软链接的核心区别</strong>：
+                        <table border="1" cellpadding="8" style="border-collapse: collapse; margin: 10px 0;">
+                            <tr>
+                                <th>特性</th>
+                                <th>硬链接</th>
+                                <th>软链接</th>
+                            </tr>
+                            <tr>
+                                <td>inode</td>
+                                <td>与源文件相同</td>
+                                <td>有独立inode</td>
+                            </tr>
+                            <tr>
+                                <td>跨文件系统</td>
+                                <td>不支持</td>
+                                <td>支持</td>
+                            </tr>
+                            <tr>
+                                <td>链接目录</td>
+                                <td>不支持（除.和..）</td>
+                                <td>支持</td>
+                            </tr>
+                            <tr>
+                                <td>源文件删除后</td>
+                                <td>仍可访问</td>
+                                <td>变为悬空链接</td>
+                            </tr>
+                            <tr>
+                                <td>链接计数</td>
+                                <td>会增加源文件的链接计数</td>
+                                <td>不影响源文件计数</td>
+                            </tr>
+                        </table>
+                    </li>
+                    <li><strong>注意事项</strong>：
+                        <ul>
+                            <li>无法为不存在的文件创建硬链接（软链接可以）；</li>
+                            <li>移动源文件到同一分区的其他位置，硬链接仍有效（软链接会失效，除非用绝对路径）；</li>
+                            <li>通过 <code>stat 文件名</code> 可查看文件的链接计数（Links字段）。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        async function loadHtmlFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const htmlContent = await response.text();
+                document.getElementById('target').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('加载文件失败:', error);
+            }
+        }
+        // 加载导航栏文件
+        loadHtmlFile('./导航栏/公共导航栏(Linux).html');
+    </script>
+</body>
+</html>
+    
