@@ -1,1 +1,130 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿东的知识库</title>
+    <link rel="stylesheet" href="../../css(所有网页公共样式表).css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1>阿东的知识库</h1>
+    </div>
+    <!-- 开启弹性布局 -->
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div id="target"></div>
+        </div>
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- umask 命令模块 -->
+            <div class="command-module">
+                <h3>1. umask - 设置文件和目录的默认权限掩码</h3>
+                <ul>
+                    <li><strong>核心功能</strong>：
+                        <ul>
+                            <li>控制新创建文件和目录的默认权限（通过"权限掩码"实现）；</li>
+                            <li>不直接设置权限，而是指定"不允许的权限"（从最大默认权限中减去掩码值）；</li>
+                            <li>系统默认值通常为0022（普通用户）或0077（root用户），可根据需求调整。</li>
+                        </ul>
+                    </li>
+                    <li><strong>权限计算逻辑</strong>：
+                        <ul>
+                            <li>Linux中新建文件的最大默认权限为 <code>666</code>（-rw-rw-rw-），新建目录为 <code>777</code>（drwxrwxrwx）；</li>
+                            <li>实际权限 = 最大默认权限 - umask值（按八进制每位相减，不借位）；</li>
+                            <li>示例：umask为022时，
+                                <ul>
+                                    <li>文件权限：666 - 022 = 644（-rw-r--r--）；</li>
+                                    <li>目录权限：777 - 022 = 755（drwxr-xr-x）。</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>基本语法</strong>：
+                        <ul>
+                            <li><code>umask</code>：查看当前的umask值（默认以八进制数字显示）；</li>
+                            <li><code>umask 八进制值</code>：临时设置umask值（如 <code>umask 002</code>）；</li>
+                            <li><code>umask -S</code>：以符号权限形式显示（如 u=rwx,g=rwx,o=rx）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>常见umask值及含义</strong>：
+                        <table border="1" cellpadding="8" style="border-collapse: collapse; margin: 10px 0;">
+                            <tr>
+                                <th>umask值</th>
+                                <th>文件默认权限</th>
+                                <th>目录默认权限</th>
+                                <th>适用场景</th>
+                            </tr>
+                            <tr>
+                                <td>0000</td>
+                                <td>666（-rw-rw-rw-）</td>
+                                <td>777（drwxrwxrwx）</td>
+                                <td>完全公开（几乎不使用，安全性差）</td>
+                            </tr>
+                            <tr>
+                                <td>0002</td>
+                                <td>664（-rw-rw-r--）</td>
+                                <td>775（drwxrwxr-x）</td>
+                                <td>允许同组用户修改（适合协作目录）</td>
+                            </tr>
+                            <tr>
+                                <td>0022</td>
+                                <td>644（-rw-r--r--）</td>
+                                <td>755（drwxr-xr-x）</td>
+                                <td>系统默认（同组和其他用户仅可读）</td>
+                            </tr>
+                            <tr>
+                                <td>0077</td>
+                                <td>600（-rw-------）</td>
+                                <td>700（drwx------）</td>
+                                <td>完全私有（仅所有者可访问）</td>
+                            </tr>
+                        </table>
+                    </li>
+                    <li><strong>用法示例</strong>：
+                        <ul>
+                            <li>1. 查看当前umask值：<code>umask</code>（输出如0022）；</li>
+                            <li>2. 以符号形式查看：<code>umask -S</code>（输出如u=rwx,g=rx,o=rx）；</li>
+                            <li>3. 临时设置为0002：<code>umask 0002</code>（新文件权限变为664）；</li>
+                            <li>4. 为敏感操作临时设置私有权限：<code>umask 0077; touch secret.txt</code>（secret.txt权限为600）。</li>
+                        </ul>
+                    </li>
+                    <li><strong>永久生效设置</strong>：
+                        <ul>
+                            <li>用户级：在 <code>~/.bashrc</code> 或 <code>~/.bash_profile</code> 中添加 <code>umask 002</code>；</li>
+                            <li>系统级：在 <code>/etc/profile</code> 或 <code>/etc/bashrc</code> 中设置（影响所有用户）；</li>
+                            <li>设置后需重新登录或执行 <code>source ~/.bashrc</code> 使生效。</li>
+                        </ul>
+                    </li>
+                    <li><strong>注意事项</strong>：
+                        <ul>
+                            <li>umask仅影响<strong>新创建</strong>的文件/目录，对已有文件无作用（需用chmod修改）；</li>
+                            <li>文件默认不分配执行权限（即使umask允许），需手动用chmod添加（如chmod +x script.sh）；</li>
+                            <li>特殊权限位（SUID、SGID、Sticky）不受umask影响，需单独设置。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        async function loadHtmlFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const htmlContent = await response.text();
+                document.getElementById('target').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('加载文件失败:', error);
+            }
+        }
+        // 加载导航栏文件
+        loadHtmlFile('./导航栏/公共导航栏(Linux).html');
+    </script>
+</body>
+</html>
+    
